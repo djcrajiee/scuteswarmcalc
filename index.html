@@ -3,10 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scute Swarm Tracker</title>
+  <title>Scute Swarm Calculator</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Instructions Section -->
+  <div class="instructions">
+    <h1>Welcome to the Scute Swarm Calculator by Johnny</h1>
+    <p>
+      To start, press the <strong>"Start Scute Swarm"</strong> button. This will place 1 Scute Swarm in the playing field with summoning sickness
+      (indicated by the red dotted lines around the token). Every time you play a land, press the <strong>"Play a Land"</strong> button.
+      This will generate tokens based on how many Scute Swarms you have. If you have more than 6 lands, check the <strong>"6 or More Lands"</strong>
+      checkbox to make Scute Swarms instead of Insects. Press the <strong>"My Turn"</strong> button when it comes back to your turn to
+      remove the summoning sickness from the Scute Swarms.
+    </p>
+  </div>
+
   <!-- Playing Field Section -->
   <div class="container">
     <h1>Playing Field</h1>
@@ -21,8 +33,8 @@
     <h2>Token Generator</h2>
 
     <div class="input-group inline">
-      <label for="sixOrMoreLands">6 or More Lands</label>
       <input type="checkbox" id="sixOrMoreLands">
+      <label for="sixOrMoreLands">6 or More Lands</label>
     </div>
 
     <div class="input-group">
@@ -33,7 +45,7 @@
     <div class="button-group">
       <button id="playLandButton">Play Land</button>
       <button id="moveToField">Move to Playing Field</button>
-      <button id="passTurn">Pass Turn</button>
+      <button id="passTurn">My Turn</button>
       <button id="startScuteSwarm">Start Scute Swarm</button>
     </div>
   </div>
