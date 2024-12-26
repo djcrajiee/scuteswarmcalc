@@ -1,4 +1,4 @@
-// Initialize the Playing Field (start empty)
+// Initialize the Playing Field
 document.addEventListener("DOMContentLoaded", () => {
   const playingField = document.getElementById("playingField");
   playingField.innerHTML = ""; // Clear any existing tokens
@@ -32,9 +32,11 @@ document.getElementById("playLandButton").addEventListener("click", () => {
   }
 });
 
+// Generate Tokens
 function generateTokens(imageSrc, type, quantity) {
   if (quantity === 0) return; // Prevent generating tokens with quantity 0
   const tokenContainer = document.getElementById("tokens");
+
   const tokenDiv = document.createElement("div");
   tokenDiv.className = "token-wrapper";
   tokenDiv.dataset.type = type;
@@ -45,8 +47,17 @@ function generateTokens(imageSrc, type, quantity) {
       <img src="${imageSrc}" alt="${type}" class="token-image">
       <span class="quantity-indicator">x${quantity}</span>
     </div>
-    <button class="remove-btn" onclick="removeToken(this)">Remove</button>
   `;
+
+  // Add Remove Button
+  const removeButton = document.createElement("button");
+  removeButton.textContent = "Remove Token";
+  removeButton.className = "remove-btn";
+  removeButton.addEventListener("click", () => {
+    removeTokenFromStack(tokenDiv);
+  });
+
+  tokenDiv.appendChild(removeButton);
   tokenContainer.appendChild(tokenDiv);
 }
 
@@ -72,6 +83,7 @@ document.getElementById("moveToField").addEventListener("click", () => {
   updatePlayingFieldIndicator();
 });
 
+// Add to Playing Field
 function addToPlayingField(type, quantity, hasSickness) {
   const playingField = document.getElementById("playingField");
 
@@ -96,6 +108,16 @@ function addToPlayingField(type, quantity, hasSickness) {
         <span class="quantity-indicator">x${quantity}</span>
       </div>
     `;
+
+    // Add Remove Button
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Remove Token";
+    removeButton.className = "remove-btn";
+    removeButton.addEventListener("click", () => {
+      removeTokenFromStack(tokenDiv);
+    });
+
+    tokenDiv.appendChild(removeButton);
     playingField.appendChild(tokenDiv);
   }
 }
@@ -118,6 +140,21 @@ document.getElementById("passTurn").addEventListener("click", () => {
   updatePlayingFieldIndicator();
 });
 
+// Remove Token from Stack
+function removeTokenFromStack(tokenDiv) {
+  let quantity = parseInt(tokenDiv.dataset.quantity);
+
+  if (quantity > 1) {
+    quantity -= 1;
+    tokenDiv.dataset.quantity = quantity;
+    tokenDiv.querySelector(".quantity-indicator").textContent = `x${quantity}`;
+  } else {
+    tokenDiv.remove();
+  }
+
+  updatePlayingFieldIndicator();
+}
+
 // Update Playing Field Indicator
 function updatePlayingFieldIndicator() {
   const insects = document.querySelectorAll("#playingField .token-wrapper[data-type='Insect']");
@@ -127,11 +164,4 @@ function updatePlayingFieldIndicator() {
   const scuteSwarmCount = Array.from(scuteSwarms).reduce((sum, token) => sum + parseInt(token.dataset.quantity), 0);
 
   document.getElementById("playingFieldIndicator").textContent = `Insects: ${insectCount} | Scute Swarms: ${scuteSwarmCount}`;
-}
-
-// Remove Token
-function removeToken(button) {
-  const tokenWrapper = button.parentElement;
-  tokenWrapper.remove();
-  updatePlayingFieldIndicator();
 }
